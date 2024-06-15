@@ -1,0 +1,584 @@
+openapi: 3.1.0
+info:
+  title: Tournament API
+  description: Sample Tournament API
+  summary: Tournament management API
+  version: 0.1
+
+tags:
+  - name: Players
+  - name: Teams
+  - name: Tournaments
+  - name: Tournament matches
+
+
+paths:
+  /{suite-id}/players:
+    parameters:
+      - $ref: "#/components/parameters/TournamentSuiteID"
+    get:
+      summary: GET all tournament suite players
+      tags:
+        - Players
+      responses:
+        200:
+          description: Successful retrieval
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Player"
+
+    post:
+      summary: Add a player to tournament suite
+      tags:
+        - Players
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Player"
+      responses:
+        200:
+          description: Successful adding
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Player"
+
+  /{suite-id}/teams:
+    parameters:
+      - $ref: "#/components/parameters/TournamentSuiteID"
+    get:
+      summary: GET all available teams
+      tags:
+        - Teams
+      responses:
+        200:
+          description: Successful retrieval
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Team"
+    post:
+      summary: Add a team to tournament suite
+      tags:
+        - Teams
+      requestBody:
+        $ref: "#/components/requestBodies/TeamInputBody"
+      responses:
+        200:
+          description: Successful adding
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Team"
+        default:
+          $ref: "#/components/responses/Unexpected"
+
+  /{suite-id}/tournaments:
+    parameters:
+      - $ref: "#/components/parameters/TournamentSuiteID"
+    get:
+      summary: GET all suite tournaments
+      tags:
+        - Tournaments
+      responses:
+        200:
+          description: Successful retrieval
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Tournament"
+    post:
+      summary: Add tournament to suite
+      tags:
+        - Tournaments
+      requestBody:
+        $ref: "#/components/requestBodies/TournamentBody"
+      responses:
+        200:
+          description: Successful adding
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tournament"
+
+  /{suite-id}/tournaments/{tournament-id}:
+    parameters:
+      - $ref: "#/components/parameters/TournamentSuiteID"
+      - $ref: "#/components/parameters/TournamentID"
+    get:
+      summary: GET specific tournament info
+      tags:
+        - Tournaments
+      responses:
+        200:
+          description: Successful retrieval
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TournamentTableDetail"
+  /{suite-id}/tournaments/{tournament-id}/teams:
+    parameters:
+      - $ref: "#/components/parameters/TournamentSuiteID"
+      - $ref: "#/components/parameters/TournamentID"
+    get:
+      summary: GET specific tournament teams
+      tags:
+        - Tournaments
+      responses:
+        200:
+          description: Successful retrieval
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Team"
+        default:
+          $ref: "#/components/responses/Unexpected"
+    post:
+      summary: Add teams to tournament
+      tags:
+        - Tournaments
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+                example: T34M1D
+      responses:
+        200:
+          description: Successful adding
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Team"
+        default:
+          $ref: "#/components/responses/Unexpected"
+
+  /{suite-id}/tournaments/{tournament-id}/matches:
+    parameters:
+      - $ref: "#/components/parameters/TournamentSuiteID"
+      - $ref: "#/components/parameters/TournamentID"
+    get:
+      summary: GET tournament matches info
+      tags:
+        - Tournament matches
+      responses:
+        200:
+          description: Successful retrieval
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Match"
+        default:
+          $ref: "#/components/responses/Unexpected"
+
+  /{suite-id}/tournaments/{tournament-id}/matches/{match-id}:
+    parameters:
+      - $ref: "#/components/parameters/TournamentSuiteID"
+      - $ref: "#/components/parameters/TournamentID"
+      - $ref: "#/components/parameters/MatchID"
+    get:
+      summary: GET specific match info
+      tags:
+        - Tournament matches
+      responses:
+        200:
+          description: Successful retrieval
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Match"
+        default:
+          $ref: "#/components/responses/Unexpected"
+
+  /{suite-id}/tournaments/{tournament-id}/matches/{match-id}/player-stats:
+    parameters:
+      - $ref: "#/components/parameters/TournamentSuiteID"
+      - $ref: "#/components/parameters/TournamentID"
+      - $ref: "#/components/parameters/MatchID"
+    get:
+      summary: GET specific match player stats
+      tags:
+        - Tournament matches
+      responses:
+        200:
+          description: Successful retrieval
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  local_team:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/PlayerMatchStats"
+                  visitor_team:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/PlayerMatchStats"
+        default:
+          $ref: "#/components/responses/Unexpected"
+
+
+components:
+  parameters:
+    TournamentSuiteID:
+      name: suite-id
+      in: path
+      description: ID of tournament suite being queried
+      required: true
+      schema:
+        type: string
+      example: SU1T31D
+      style: simple
+    TournamentID:
+      name: tournament-id
+      in: path
+      description: ID of tournament being queried
+      required: true
+      schema:
+        type: string
+      example: T0URN4M3NT1D
+      style: simple
+    MatchID:
+      name: match-id
+      in: path
+      description: Match id being queried
+      required: true
+      schema:
+        type: string
+      example: M4TCH1D
+    PlayerID:
+      name: player-id
+      in: path
+      description: Player ID in tournament
+      required: true
+      schema:
+        type: string
+      example: PL4Y3R1D
+      style: simple
+
+  requestBodies:
+    TeamInputBody:
+      description: Team adding info
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/TeamInput"
+    TournamentBody:
+      description: Tournament adding info
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Tournament"
+  responses:
+    NotFound:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unexpected:
+      description: Unexpected error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+      required:
+        - code
+        - message
+    Tournament:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+          example: T0URN4M3NT1D
+        name:
+          type: string
+          example: defaultLeague
+        type:
+          type: string
+          enum:
+            - round_robin
+            - single_elimination
+          example: round_robin
+        tie_breaker_policy:
+          type: string
+          enum:
+            - olympic
+            - point_difference
+          example: point_difference
+    Player:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+          example: PL4Y3R1D
+        name:
+          type: string
+          example: Pablo Aguirre
+        age:
+          type: integer
+          example: 28
+    PlayerTeamRelationShip:
+      type: object
+      properties:
+        player_id:
+          type: string
+          example: PL4Y3R3X4MPL31D
+        team_number:
+          type: integer
+          example: 8
+    TeamInput:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Mega Basket
+        logo_uri:
+          type: string
+          example: 127.0.0.1/testing-uri
+        roster:
+          type: array
+          items:
+            $ref: "#/components/schemas/PlayerTeamRelationShip"
+    Team:
+      type: object
+      properties:
+        id:
+          type: string
+          example: T34M1D
+          readOnly: true
+        name:
+          type: string
+          example: Mega Basket
+        logo_uri:
+          type: string
+          example: 127.0.0.1/testing-uri
+        roster:
+          type: array
+          items:
+            allOf:
+              - $ref: "#/components/schemas/Player"
+              - type: object
+                properties:
+                  team_number:
+                    type: integer
+                    example: 8
+    TeamTournamentStats:
+      type: object
+      properties:
+        position:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Mega Basket
+        wins:
+          type: integer
+          example: 3
+        loses:
+          type: integer
+          example: 2
+        ties:
+          type: integer
+          example: 0
+        goal_difference:
+          type: integer
+          example: 32
+        points:
+          type: integer
+          example: 10
+
+    TournamentTableDetail:
+      allOf:
+        - $ref: "#/components/schemas/Tournament"
+        - type: object
+          properties:
+            positions:
+              type: array
+              items:
+                $ref: "#/components/schemas/TeamTournamentStats"
+
+    TeamStats:
+      type: object
+      properties:
+        points:
+          type: integer
+          example: 15
+        rebounds:
+          type: integer
+          example: 4
+        assists:
+          type: integer
+          example: 3
+        personal_fouls:
+          type: integer
+          example: 2
+        steals:
+          type: integer
+          example: 3
+        losses:
+          type: integer
+          example: 1
+        blocks:
+          type: integer
+          example: 2
+
+    PlayerMatchStats:
+      type: object
+      properties:
+        number:
+          type: integer
+          example: 8
+        name:
+          type: string
+          example: Pablo Aguirre
+        minutes_played:
+          type: string
+          format: duration
+          default: "00:00"
+          example: "33:25"
+        points:
+          type: integer
+          default: 0
+          example: 8
+        field_goals_made:
+          type: integer
+          default: 0
+          example: 4
+        field_goal_attempts:
+          type: integer
+          default: 0
+          example: 4
+        field_goal_percentage:
+          type: string
+          default: 0.00%
+          example: 100.00%
+        three_points_made:
+          type: integer
+          default: 0
+          example: 0
+        three_point_attempts:
+          type: integer
+          default: 0
+          example: 0
+        three_point_percentage:
+          type: string
+          default: 0.00%
+          example: 0.00%
+        two_points_made:
+          type: integer
+          default: 0
+          example: 4
+        two_point_attempts:
+          type: integer
+          default: 0
+          example: 4
+        two_point_percentage:
+          type: string
+          default: 0.00%
+          example: 100.00%
+        free_throws_made:
+          type: integer
+          default: 0
+          example: 0
+        free_throw_attempts:
+          type: integer
+          default: 0
+          example: 0
+        free_throw_percentage:
+          type: string
+          default: 0.00%
+          example: 0.00%
+        offensive_rebounds:
+          type: integer
+          default: 0
+          example: 2
+        defensive_rebounds:
+          type: integer
+          default: 0
+          example: 1
+        total_rebounds:
+          type: integer
+          default: 0
+          example: 3
+        turnovers:
+          type: integer
+          default: 0
+          example: 1
+        blocks:
+          type: integer
+          default: 0
+          example: 0
+        personal_fouls:
+          type: integer
+          default: 0
+          example: 2
+        plus_minus:
+          type: integer
+          default: 0
+          example: 5
+
+    MatchTeamStats:
+      type: object
+      properties:
+        q1_stats:
+          $ref: "#/components/schemas/TeamStats"
+        q2_stats:
+          $ref: "#/components/schemas/TeamStats"
+        q3_stats:
+          $ref: "#/components/schemas/TeamStats"
+        q4_stats:
+          $ref: "#/components/schemas/TeamStats"
+
+    Match:
+      type: object
+      properties:
+        local_team:
+          allOf:
+            - $ref: "#/components/schemas/Team"
+            - type: object
+              properties:
+                match_stats:
+                  $ref: "#/components/schemas/MatchTeamStats"
+        visitor_team:
+          allOf:
+            - $ref: "#/components/schemas/Team"
+            - type: object
+              properties:
+                match_stats:
+                  $ref: "#/components/schemas/MatchTeamStats"
