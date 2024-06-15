@@ -156,7 +156,7 @@ paths:
               type: array
               items:
                 type: string
-                example: T34M1D
+                examples: T34M1D
       responses:
         200:
           description: Successful adding
@@ -246,7 +246,7 @@ components:
       required: true
       schema:
         type: string
-      example: SU1T31D
+      examples: SU1T31D
       style: simple
     TournamentID:
       name: tournament-id
@@ -255,7 +255,7 @@ components:
       required: true
       schema:
         type: string
-      example: T0URN4M3NT1D
+      examples: T0URN4M3NT1D
       style: simple
     MatchID:
       name: match-id
@@ -264,7 +264,7 @@ components:
       required: true
       schema:
         type: string
-      example: M4TCH1D
+      examples: M4TCH1D
     PlayerID:
       name: player-id
       in: path
@@ -272,7 +272,7 @@ components:
       required: true
       schema:
         type: string
-      example: PL4Y3R1D
+      examples: PL4Y3R1D
       style: simple
 
   requestBodies:
@@ -324,53 +324,53 @@ components:
         id:
           type: string
           readOnly: true
-          example: T0URN4M3NT1D
+          examples: T0URN4M3NT1D
         name:
           type: string
-          example: defaultLeague
+          examples: defaultLeague
         type:
           type: string
           enum:
             - round_robin
             - single_elimination
-          example: round_robin
+          examples: round_robin
         tie_breaker_policy:
           type: string
           enum:
             - olympic
             - point_difference
-          example: point_difference
+          examples: point_difference
     Player:
       type: object
       properties:
         id:
           type: string
           readOnly: true
-          example: PL4Y3R1D
+          examples: PL4Y3R1D
         name:
           type: string
-          example: Pablo Aguirre
+          examples: Pablo Aguirre
         age:
           type: integer
-          example: 28
+          examples: 28
     PlayerTeamRelationShip:
       type: object
       properties:
         player_id:
           type: string
-          example: PL4Y3R3X4MPL31D
+          examples: PL4Y3R3X4MPL31D
         team_number:
           type: integer
-          example: 8
+          examples: 8
     TeamInput:
       type: object
       properties:
         name:
           type: string
-          example: Mega Basket
+          examples: Mega Basket
         logo_uri:
           type: string
-          example: 127.0.0.1/testing-uri
+          examples: 127.0.0.1/testing-uri
         roster:
           type: array
           items:
@@ -380,14 +380,14 @@ components:
       properties:
         id:
           type: string
-          example: T34M1D
+          examples: T34M1D
           readOnly: true
         name:
           type: string
-          example: Mega Basket
+          examples: Mega Basket
         logo_uri:
           type: string
-          example: 127.0.0.1/testing-uri
+          examples: 127.0.0.1/testing-uri
         roster:
           type: array
           items:
@@ -397,31 +397,31 @@ components:
                 properties:
                   team_number:
                     type: integer
-                    example: 8
+                    examples: 8
     TeamTournamentStats:
       type: object
       properties:
         position:
           type: integer
-          example: 1
+          examples: 1
         name:
           type: string
-          example: Mega Basket
+          examples: Mega Basket
         wins:
           type: integer
-          example: 3
+          examples: 3
         loses:
           type: integer
-          example: 2
+          examples: 2
         ties:
           type: integer
-          example: 0
+          examples: 0
         goal_difference:
           type: integer
-          example: 32
+          examples: 32
         points:
           type: integer
-          example: 10
+          examples: 10
 
     TournamentTableDetail:
       allOf:
@@ -438,120 +438,120 @@ components:
       properties:
         points:
           type: integer
-          example: 15
+          examples: 15
         rebounds:
           type: integer
-          example: 4
+          examples: 4
         assists:
           type: integer
-          example: 3
+          examples: 3
         personal_fouls:
           type: integer
-          example: 2
+          examples: 2
         steals:
           type: integer
-          example: 3
+          examples: 3
         losses:
           type: integer
-          example: 1
+          examples: 1
         blocks:
           type: integer
-          example: 2
+          examples: 2
 
     PlayerMatchStats:
       type: object
       properties:
         number:
           type: integer
-          example: 8
+          examples: 8
         name:
           type: string
-          example: Pablo Aguirre
+          examples: Pablo Aguirre
         minutes_played:
           type: string
           format: duration
           default: "00:00"
-          example: "33:25"
+          examples: "33:25"
         points:
           type: integer
           default: 0
-          example: 8
+          examples: 8
         field_goals_made:
           type: integer
           default: 0
-          example: 4
+          examples: 4
         field_goal_attempts:
           type: integer
           default: 0
-          example: 4
+          examples: 4
         field_goal_percentage:
           type: string
           default: 0.00%
-          example: 100.00%
+          examples: 100.00%
         three_points_made:
           type: integer
           default: 0
-          example: 0
+          examples: 0
         three_point_attempts:
           type: integer
           default: 0
-          example: 0
+          examples: 0
         three_point_percentage:
           type: string
           default: 0.00%
-          example: 0.00%
+          examples: 0.00%
         two_points_made:
           type: integer
           default: 0
-          example: 4
+          examples: 4
         two_point_attempts:
           type: integer
           default: 0
-          example: 4
+          examples: 4
         two_point_percentage:
           type: string
           default: 0.00%
-          example: 100.00%
+          examples: 100.00%
         free_throws_made:
           type: integer
           default: 0
-          example: 0
+          examples: 0
         free_throw_attempts:
           type: integer
           default: 0
-          example: 0
+          examples: 0
         free_throw_percentage:
           type: string
           default: 0.00%
-          example: 0.00%
+          examples: 0.00%
         offensive_rebounds:
           type: integer
           default: 0
-          example: 2
+          examples: 2
         defensive_rebounds:
           type: integer
           default: 0
-          example: 1
+          examples: 1
         total_rebounds:
           type: integer
           default: 0
-          example: 3
+          examples: 3
         turnovers:
           type: integer
           default: 0
-          example: 1
+          examples: 1
         blocks:
           type: integer
           default: 0
-          example: 0
+          examples: 0
         personal_fouls:
           type: integer
           default: 0
-          example: 2
+          examples: 2
         plus_minus:
           type: integer
           default: 0
-          example: 5
+          examples: 5
 
     MatchTeamStats:
       type: object
